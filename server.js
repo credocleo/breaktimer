@@ -1,10 +1,57 @@
 'use strict'
+//import Promise from 'bluebird';
+var sqlite3 = require('sqlite3').verbose();
+var promise = require('promise');
+
+let db = new sqlite3.Database('breaktime_db');
+
 //import Hapi from 'hapi'
 var Hapi = require('hapi');
 let server = new Hapi.Server();
 let port = process.env.port || 4000;
 server.connection({port,
  routes: { cors: true } });
+
+server.route({
+	method: 'GET',
+	path: '/db',
+	handler: function(request, reply){
+		db.serialize(()=>{
+			//db.run("create table employees(name text, time text)");
+			//db.run("insert into employees values ('cleo', 'wwww')");
+			db.each("select * from employees", function(err,row){
+				console.log("name : " + row.name + " time : " +  row.time);
+			});		
+		});
+	}
+});
+
+server.route({
+	method: 'GET',
+	path: '/employees',
+	handler: function(request, reply){
+		db.serialize(()=>{
+				var all_employees = [];
+				var emplo = db.each("select * from employees", function(err, row){
+				var each_employee = {"name" : row.name};
+				//console.log(each_employee);
+				all_employees.push(each_employee);
+				},(err,rows)=>{
+					console.log('completion')
+					console.log(JSON.stringify(rows));	
+					console.log("w " + JSON.stringify(all_employees));
+					reply(JSON.stringify(all_employees));
+				});
+				console.log('emp testing')
+			
+			//console.log("each_db:" + " " + JSON.stringify(each_db));
+			 //db.finalize();
+			
+
+
+		});
+	}
+});
 
 server.route({
 	method: 'GET',

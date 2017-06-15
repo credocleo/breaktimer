@@ -5,7 +5,8 @@
   "dependencies": {
     "hapi": "^16.4.3",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "sqlite": "^2.8.0"
   },
   "devDependencies": {
     "react-scripts": "0.9.x"

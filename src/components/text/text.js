@@ -6,13 +6,14 @@ class Text extends Component {
     super(props);
     this.state = {
       second: 0,
-      name: ''
+      name: '',
+      employees : []
     };
     setInterval(() => this.myTime(),1000);
   }
 
   componentDidMount(){
-    let url = "http://localhost:4000/name/kent"
+    let url = "http://localhost:4000/employees"
     let proxy = "http://cors-anywhere.herokuapp.com/"
     try{
       // let response = fetch('http://localhost:4000/name/kent');
@@ -23,7 +24,11 @@ class Text extends Component {
       fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        //console.log(responseJson);
+        this.setState({
+          name : "testing",
+          employees: responseJson
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -44,9 +49,15 @@ class Text extends Component {
   }
 
   render() {
+    var employees = this.state.employees.map((data)=>{
+      return <tr><td>Name:</td><td>{data.name}</td></tr>
+    })
     return (
       <div>
         <h1>Name: {this.state.name}</h1>
+        <table>
+        {employees}
+        </table>
         <h1>Time: {this.state.second}</h1>
       </div>
     );
