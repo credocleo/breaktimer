@@ -45,11 +45,21 @@ server.route({
 				console.log('emp testing')
 			
 			//console.log("each_db:" + " " + JSON.stringify(each_db));
-			 //db.finalize();
-			
-
-
+			//db.finalize();
 		});
+	}
+});
+
+server.route({
+	method: 'POST',
+	path: '/insert',
+	handler: function(request,reply){
+		db.run('insert into employees(name) values (?)', [request.payload.name], function(err,row){
+			var success_message = {'message' : 'inserted'};
+			reply(JSON.stringify(success_message));
+		});
+		// var recievedData = {'name' : request.payload.name};
+		// reply(JSON.stringify(recievedData));
 	}
 });
 

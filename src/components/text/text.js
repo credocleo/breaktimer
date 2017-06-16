@@ -49,8 +49,8 @@ class Text extends Component {
   }
 
   render() {
-    var employees = this.state.employees.map((data)=>{
-      return <tr><td>Name:</td><td>{data.name}</td></tr>
+    var employees = this.state.employees.map((data,i)=>{
+      return <tbody key={i}><tr><td>Name:</td><td>{data.name}</td></tr></tbody>
     })
     return (
       <div>

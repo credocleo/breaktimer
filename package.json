@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "hapi": "^16.4.3",
+    "jquery": "^3.2.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "sqlite": "^2.8.0"
