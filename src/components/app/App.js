@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Text from '../text/text.js';
 import Form from '../form/form.js';
+import Employee_page from '../employee_page/employee_page.js';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and saveu to reload.
         </p>
         <Text />
+        <Employee_page />
         <Form />
       </div>
     );

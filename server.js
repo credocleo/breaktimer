@@ -17,10 +17,10 @@ server.route({
 	path: '/db',
 	handler: function(request, reply){
 		db.serialize(()=>{
-			//db.run("create table employees(name text, time text)");
+			//db.run("create table employees(employee_id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)");
 			//db.run("insert into employees values ('cleo', 'wwww')");
 			db.each("select * from employees", function(err,row){
-				console.log("name : " + row.name + " time : " +  row.time);
+				console.log(" name : " + row.name + " time : " +  row.time);
 			});		
 		});
 	}
@@ -33,7 +33,8 @@ server.route({
 		db.serialize(()=>{
 				var all_employees = [];
 				var emplo = db.each("select * from employees", function(err, row){
-				var each_employee = {"name" : row.name};
+				var each_employee = {"empIdNum" : row.employee_id,
+									"name" : row.name};
 				//console.log(each_employee);
 				all_employees.push(each_employee);
 				},(err,rows)=>{
@@ -65,6 +66,22 @@ server.route({
 
 server.route({
 	method: 'GET',
+	path: '/update',
+	handler: function(request, reply){
+		db.serialize(()=>{
+			//db.run("create table employees(employee_id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)");
+			//db.run("insert into employees(name, time) values ('cleo credo', '1028')");
+			db.each("select * from employees", function(err,row){
+				console.log("emp_id : " + row.employee_id + " name : " + row.name + " time : " +  row.time);
+			});	
+			
+		});
+		
+	}
+});
+
+server.route({
+	method: 'GET',
 	path: '/',
 	handler: function(request,reply){
 		reply('hello cleo');
@@ -80,6 +97,8 @@ server.route({
 		reply(JSON.stringify({name}));
 	}
 });
+
+
 
 server.route({
 	method: 'GET',

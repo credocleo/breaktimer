@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import Employee_list from './employee_list.js';
 
-class Text extends Component {
+class Employee_page extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      second: 0
+      name: '',
+      employees : [],
+      empIdNum : 0
     };
-    setInterval(() => this.myTime(),1000);
   }
 
   componentDidMount(){
@@ -37,25 +39,16 @@ class Text extends Component {
       console.error(error);
     }
     
-    setInterval(() => this.myTime(),1000);
-  }
-
-  myTime(){
-    let time = this.state.second +1;
-    this.setState({
-      second : time}
-      );
   }
 
   render() {
     return (
       <div>
-        <h1>Name: {this.state.name}</h1>
-        <h1>Time: {this.state.second}</h1>
+        <Employee_list employees={this.state.employees} />
       </div>
     );
   }
 
 }
 
-export default Text;  
+export default Employee_page;  
