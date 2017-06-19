@@ -52,6 +52,31 @@ server.route({
 });
 
 server.route({
+	method: 'GET',
+	path: '/searchemployee/name/{empName}',
+	handler: function(request,reply){
+		db.serialize(()=>{
+			var theEmployee = [];
+			console.log("search employee flag")
+			var employee_name = encodeURIComponent(request.params.empName);
+			console.log('Employee name: '+employee_name);
+			var searchEmpQuery = "select * from employees where name like '%"+employee_name+"%'";
+			var searchedEmployee = db.each(searchEmpQuery, [] ,function(err,row){
+				var searchingEmployee = {"empIdNum" : row.employee_id,
+										 "name" : row.name,
+										 "time" : row.time
+										};
+				console.log("Employee search details: "+row.employee_id)
+				theEmployee.push(searchingEmployee);
+				console.log("cccc " + searchedEmployee);
+			},(err,rows)=>{
+				reply(JSON.stringify(theEmployee));
+			});	
+		});
+	}	
+});
+
+server.route({
 	method: 'POST',
 	path: '/insert',
 	handler: function(request,reply){
