@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Text from '../text/text.js';
-import Form from '../form/form.js';
-import Employee_page from '../employee_page/employee_page.js';
+import AddEmployeeForm from '../employee/add_employee_form.js';
+import Employee_page from '../employee/index.js';
 
 class App extends Component {
   render() {
@@ -19,7 +19,6 @@ class App extends Component {
         </p>
         <Text />
         <Employee_page />
-        <Form />
       </div>
     );
   }

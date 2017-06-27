@@ -81,7 +81,7 @@ server.route({
 	path: '/insert',
 	handler: function(request,reply){
 		db.run('insert into employees(name) values (?)', [request.payload.name], function(err,row){
-			var success_message = {'message' : 'inserted'};
+			var success_message = {'message' : 'inserted','success':true};
 			reply(JSON.stringify(success_message));
 		});
 		// var recievedData = {'name' : request.payload.name};
