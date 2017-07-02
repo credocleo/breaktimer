@@ -20,7 +20,7 @@ server.route({
 			//db.run("create table employees(employee_id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)");
 			//db.run("insert into employees values ('cleo', 'wwww')");
 			db.each("select * from employees", function(err,row){
-				console.log(" name : " + row.name + " time : " +  row.time);
+				
 			});		
 		});
 	}
@@ -35,18 +35,13 @@ server.route({
 				var emplo = db.each("select * from employees", function(err, row){
 				var each_employee = {"empIdNum" : row.employee_id,
 									"name" : row.name};
-				//console.log(each_employee);
+				
 				all_employees.push(each_employee);
 				},(err,rows)=>{
-					console.log('completion')
-					console.log(JSON.stringify(rows));	
-					console.log("w " + JSON.stringify(all_employees));
+					// console.log(JSON.stringify(rows));	
+					// console.log("w " + JSON.stringify(all_employees));
 					reply(JSON.stringify(all_employees));
 				});
-				console.log('emp testing')
-			
-			//console.log("each_db:" + " " + JSON.stringify(each_db));
-			//db.finalize();
 		});
 	}
 });
@@ -57,18 +52,14 @@ server.route({
 	handler: function(request,reply){
 		db.serialize(()=>{
 			var theEmployee = [];
-			console.log("search employee flag")
 			var employee_name = encodeURIComponent(request.params.empName);
-			console.log('Employee name: '+employee_name);
 			var searchEmpQuery = "select * from employees where name like '%"+employee_name+"%'";
 			var searchedEmployee = db.each(searchEmpQuery, [] ,function(err,row){
 				var searchingEmployee = {"empIdNum" : row.employee_id,
 										 "name" : row.name,
 										 "time" : row.time
 										};
-				console.log("Employee search details: "+row.employee_id)
 				theEmployee.push(searchingEmployee);
-				console.log("cccc " + searchedEmployee);
 			},(err,rows)=>{
 				reply(JSON.stringify(theEmployee));
 			});	
@@ -84,24 +75,30 @@ server.route({
 			var success_message = {'message' : 'inserted','success':true};
 			reply(JSON.stringify(success_message));
 		});
-		// var recievedData = {'name' : request.payload.name};
-		// reply(JSON.stringify(recievedData));
 	}
 });
 
 server.route({
-	method: 'GET',
-	path: '/update',
+	method: 'POST',
+	path: '/delete',
 	handler: function(request, reply){
-		db.serialize(()=>{
-			//db.run("create table employees(employee_id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)");
-			//db.run("insert into employees(name, time) values ('cleo credo', '1028')");
-			db.each("select * from employees", function(err,row){
-				console.log("emp_id : " + row.employee_id + " name : " + row.name + " time : " +  row.time);
-			});	
-			
+		db.run('delete from employees where employee_id=?', [request.payload.employee_id], function(err,row){
+			var delete_success = {'message' : 'deleted' , 'success': true};
+			//or you can output the deleted item
+			reply(JSON.stringify(delete_success));
 		});
 		
+	}
+});
+
+server.route({
+	method: 'POST',
+	path: '/update',
+	handler: function(request, reply){
+		db.run('update employees set name=? where employee_id=?', [request.payload.name, request.payload.employee_id], function(err,row){
+			var update_success = {'message' : 'updated' , 'success' : true};
+			reply(JSON.stringify(update_success));	
+		});
 	}
 });
 

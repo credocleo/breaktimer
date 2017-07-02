@@ -20,7 +20,6 @@ class Employee_page extends Component {
   }
 
   successFunction(data){
-    console.log('nasulod dre');
     this.setState({
       employees: data,
       loadComplete : true
@@ -104,9 +103,11 @@ class Employee_page extends Component {
   render() {
     return (
       <div>
+      
         <SearchForm onSearch={this.searchEmployee} />
         <Employee_list employees={this.state.employees} />
         <AddEmployeeForm onAdd={this.toInsertValue} onCatch={this.getInputValue} val={this.state.name}/>
+        
       </div>
     );
   }

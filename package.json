@@ -6,7 +6,9 @@
     "hapi": "^16.4.3",
     "jquery": "^3.2.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
+    "react-modal": "^2.1.0",
     "sqlite": "^2.8.0",
     "sqlite3": "^3.1.8"
   },
